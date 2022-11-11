@@ -141,6 +141,7 @@ function Coin() {
 	);
 
 	const loading = detailLoading || priceLoading;
+	if (!priceData) return <></>;
 	return (
 		<Container>
 			<Helmet>
