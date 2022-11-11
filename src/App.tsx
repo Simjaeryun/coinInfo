@@ -75,7 +75,9 @@ function App() {
 			<ThemeProvider theme={isDark ? darkTheme : lightTheme}>
 				<GlobalStyled />
 				<Router />
-				<Button onClick={toggleDarkAtom}>Screen Color Change</Button>
+				<Button onClick={toggleDarkAtom}>
+					Screen Color Change!!!!!
+				</Button>
 				<ReactQueryDevtools initialIsOpen={true} />
 			</ThemeProvider>
 		</>
