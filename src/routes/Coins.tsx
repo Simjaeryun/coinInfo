@@ -74,7 +74,7 @@ const Container = styled.div`
 	}
 	ul {
 		li {
-			background-color: #fff;
+			background-color: ${(props) => props.theme.columnBgColor};
 			color: ${(props) => props.theme.bgColor};
 
 			border-radius: 15px;

@@ -1,6 +1,11 @@
 import styled, { createGlobalStyle } from "styled-components";
 import { ReactQueryDevtools } from "react-query/devtools";
 import Router from "./Router";
+
+import { ThemeProvider } from "styled-components";
+import { darkTheme, lightTheme } from "./theme";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isDarkAtom } from "./atoms";
 const GlobalStyled = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap');
 html, body, div, span, applet, object, iframe,
@@ -59,13 +64,33 @@ table {
 `;
 
 function App() {
+	const isDark = useRecoilValue(isDarkAtom);
+	const setDarkAtom = useSetRecoilState(isDarkAtom);
+
+	const toggleDarkAtom = () => {
+		setDarkAtom((prev) => !prev);
+	};
 	return (
 		<>
-			<GlobalStyled />
-			<Router />
-			<ReactQueryDevtools initialIsOpen={true} />
+			<ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+				<GlobalStyled />
+				<Router />
+				<Button onClick={toggleDarkAtom}>Screen Color Change</Button>
+				<ReactQueryDevtools initialIsOpen={true} />
+			</ThemeProvider>
 		</>
 	);
 }
+
+const Button = styled.div`
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	background: ${(props) => props.theme.accentColor};
+	color: #fff;
+	padding: 10px;
+	cursor: pointer;
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+`;
 
 export default App;
