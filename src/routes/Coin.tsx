@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
-import { QueryClient, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import {
 	Link,
 	Outlet,
-	Route,
-	Routes,
 	useLocation,
 	useMatch,
 	useParams,
 } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinDetail, fetchCoinPrice } from "../api";
+import { Helmet } from "react-helmet";
 //Interface
 
 interface Tag {
@@ -130,22 +128,40 @@ function Coin() {
 	const chartMatch = useMatch("/:coinId/chart");
 
 	//Coin 정보
-	const { isLoading: detailLoading, data: detailData } = useQuery<ICoinDetail>(
-		["coinDetail", coinId],
-		() => fetchCoinDetail(coinId)
-	);
+	const { isLoading: detailLoading, data: detailData } =
+		useQuery<ICoinDetail>(
+			["coinDetail", coinId],
+			() => fetchCoinDetail(coinId),
+			{ refetchInterval: 10000 }
+		);
 	const { isLoading: priceLoading, data: priceData } = useQuery<ICoinPrice>(
 		["coinPrice", coinId],
-		() => fetchCoinPrice(coinId)
+		() => fetchCoinPrice(coinId),
+		{ refetchInterval: 10000 }
 	);
 
 	const loading = detailLoading || priceLoading;
 	return (
 		<Container>
+			<Helmet>
+				<title>
+					{state?.name
+						? state.name
+						: loading
+						? "Loading..."
+						: detailData?.name}
+				</title>
+			</Helmet>
 			<header>
-				<h1>
-					{state?.name ? state.name : loading ? "Loading..." : detailData?.name}
-				</h1>
+				<Link to={"/"}>
+					<h1>
+						{state?.name
+							? state.name
+							: loading
+							? "Loading..."
+							: detailData?.name}
+					</h1>
+				</Link>
 			</header>
 
 			{loading ? (
@@ -162,8 +178,10 @@ function Coin() {
 							<span>${detailData?.symbol}</span>
 						</OverviewItem>
 						<OverviewItem>
-							<span>Open Source:</span>
-							<span>{detailData?.open_source ? "Yes" : "No"}</span>
+							<span>Price:</span>
+							<span>
+								{priceData?.quotes.USD.price.toFixed(3)}
+							</span>
 						</OverviewItem>
 					</Overview>
 					<Description>{detailData?.description}</Description>
@@ -187,7 +205,7 @@ function Coin() {
 					</Tabs>
 				</>
 			)}
-			<Outlet />
+			<Outlet context={{ coinId, priceData }} />
 		</Container>
 	);
 }

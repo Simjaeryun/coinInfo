@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
+import { Helmet } from "react-helmet";
 //Interface
 interface IAllCoins {
 	id: string;
@@ -31,6 +32,9 @@ function Coins() {
 
 	return (
 		<Container>
+			<Helmet>
+				<title>Coin</title>
+			</Helmet>
 			<header>
 				<h1>Coins</h1>
 			</header>
@@ -43,6 +47,7 @@ function Coins() {
 							<Link to={`/${coin.id}`} state={coin}>
 								<img
 									src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
+									alt={"코인 심볼이미지"}
 								/>
 								{coin.name} &rarr;
 							</Link>
