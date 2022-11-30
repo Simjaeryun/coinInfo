@@ -13,9 +13,7 @@ const queryClient = new QueryClient();
 root.render(
 	<React.StrictMode>
 		<RecoilRoot>
-			<QueryClientProvider client={queryClient}>
-				<App />
-			</QueryClientProvider>
+			<App />
 		</RecoilRoot>
 	</React.StrictMode>
 );

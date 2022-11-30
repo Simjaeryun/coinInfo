@@ -7,9 +7,9 @@ export const darkTheme: DefaultTheme = {
 	columnBgColor: "#fff",
 };
 
-export const lightTheme: DefaultTheme = {
-	bgColor: "#fff",
-	textColor: "#000",
-	accentColor: "#4cd137",
-	columnBgColor: "#aaa",
-};
+// export const lightTheme: DefaultTheme = {
+// 	bgColor: "#fff",
+// 	textColor: "#000",
+// 	accentColor: "#4cd137",
+// 	columnBgColor: "#aaa",
+// };
